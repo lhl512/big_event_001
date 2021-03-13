@@ -14,4 +14,25 @@ let baseURL = 'http://api-breakingnews-web.itheima.net';
 $.ajaxPrefilter(function (options) {
     // 手动为URL添加路径前缀
     options.url = baseURL + options.url;
+
+    // 身份验证
+    if (options.url.indexOf("/my/") != -1) {
+
+        options.headers = {
+            Authorization: localStorage.getItem("token") || ''
+        }
+    }
+
+    // 拦截所有响应，判断身份认证信息
+    URLSearchParams.complete = function (res) {
+        console.log(res.res.responseJSON);
+        let obj = res.responseJSON;
+        if (obj.status == 1 && obj.message == '身份认证失败!') {
+            // 清空本地token
+            localStorage.removeItem("token");
+            // 页面跳转
+            location.href = '/login.html'
+        }
+
+    }
 })

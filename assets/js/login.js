@@ -85,7 +85,7 @@ $(function () {
                 localStorage.setItem("token", res.token);
                 // 跳转
 
-                location.href = "/idnex.html";
+                location.href = "/index.html";
 
             }
         })
