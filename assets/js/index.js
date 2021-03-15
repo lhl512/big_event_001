@@ -6,7 +6,6 @@ $(function () {
         let layer = layui.layer;
         $("#btnLogout").on("click", function () {
             // 框架提供的询问框
-
             layer.confirm("是否确认退出?", {
                 icon: 3,
                 title: '提示'
@@ -30,13 +29,14 @@ function getUserInfo() {
         //     Authorization: localStorage.getItem("token") || ''
         // },
         success: (res) => {
-            console.log(res);
+            // console.log(res);
             if (res.status !== 0) {
                 return layui.layer.msg(res.message)
             }
             // 请求成功 渲染头像
             renderAvatar(res.data)
         }
+
     })
 }
 
