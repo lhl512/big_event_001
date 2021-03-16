@@ -70,10 +70,10 @@
             <td>{{item.pub_date | dateFormat }}</td>
             <td>{{item.state}}</td>
             <td>
-                <button type="button" class="layui-btn layui-btn-xs">编辑</button>
-
-                <button id="btn-delete" data-id="{{item.Id}}" type="button"
-                    class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
+                <!-- <button type="button" class="layui-btn layui-btn-xs">编辑</button> -->
+                <a href="/article/art_edit.html?id={{item.Id}}" class="layui-btn layui-btn-xs">编辑</a>
+                <button data-id="{{item.Id}}" type="button"
+                    class="layui-btn layui-btn-xs layui-btn-danger btn-delete">删除</button>
             </td>
         </tr>
         {{/each}}

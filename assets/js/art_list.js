@@ -47,6 +47,7 @@ $(function () {
                 let htmlStr = template("tpl-table", res);
                 $("tbody").html(htmlStr);
                 renderPage(res.total)
+                // console.log(res.total);
 
             }
         })
@@ -98,7 +99,7 @@ $(function () {
             limits: [2, 3, 5, 10],
 
             jump: function (obj, first) {
-                console.log(first, obj.curr, obj.limit);
+                // console.log(first, obj.curr, obj.limit);
 
                 q.pagenum = obj.curr;
                 q.pagesize = obj.limit;
@@ -115,7 +116,8 @@ $(function () {
 
     // 删除
 
-    $("tbody").on("click", "#btn-delete", function () {
+    $("tbody").on("click", ".btn-delete", function () {
+        let len = $('.btn-delete').length
         let Id = $(this).attr("data-id");
         layer.confirm("是否确认删除?", {
             icon: 3,
@@ -129,13 +131,21 @@ $(function () {
                     if (res.status !== 0) {
                         return layer.msg(res.message);
                     }
-                    initTable();
+
                     layer.msg("恭喜您,文章删除成功!", {
                         icon: 6
                     });
-                    if ($("#btn-delete").length == 1 && q.pagenum > 1) q.pagenum--;
+                    // if ($("#btn-delete").length == 1 && q.pagenum > 1) q.pagenum--;
+                    if (len === 1) {
+                        // 如果 len 的值等于1，证明删除完毕之后，页面上就没有任何数据了
+                        // 页码值最小必须是 1
+                        q.pagenum = q.pagenum === 1 ? 1 : q.pagenum - 1
+                    }
+                    initTable();
                 }
+
             })
+
             layer.close(index);
         })
     })

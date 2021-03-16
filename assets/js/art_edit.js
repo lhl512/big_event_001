@@ -1,4 +1,27 @@
 $(function () {
+    function initForm() {
+        let id = location.search.split("=")[1];
+        $.ajax({
+            url: '/my/article/' + id,
+
+            success: (res) => {
+                // console.log(res);
+                if (res.status !== 0) {
+                    return layer.msg(res.message)
+                }
+                form.val('form-edit', res.data);
+
+                tinyMCE.activeEditor.setContent(res.data.content);
+
+                if (!res.data.cover_img) {
+                    return layer.msg("用户未上传图片!")
+                }
+                let newImgURL = baseURL + res.data.cover_img;
+                $image.cropper('destroy').attr("src", newImgURL).cropper(options)
+            }
+        })
+    }
+
     let form = layui.form;
     let layer = layui.layer;
 
@@ -16,6 +39,7 @@ $(function () {
                 let htmlStr = template("tpl-cate", res);
                 $("[name=cate_id]").html(htmlStr)
                 form.render();
+                initForm();
             }
         })
     }
@@ -68,7 +92,7 @@ $(function () {
             })
             .toBlob(function (blob) {
                 fd.append('cover_img', blob);
-                // console.log(fd);
+                console.log(...fd);
                 publishArticle(fd)
             })
     })
@@ -76,17 +100,17 @@ $(function () {
     // 封装 添加文章方法
     function publishArticle(fd) {
         $.ajax({
-            url: '/my/article/add',
+            url: '/my/article/edit',
             type: 'post',
             data: fd,
             contentType: false,
             processData: false,
             success: (res) => {
-                // console.log(res);
+                console.log(res);
                 if (res.status !== 0) {
                     return layer.msg(res.message)
                 }
-                layer.msg("恭喜您,发布文章成功!", {
+                layer.msg("恭喜您,修改文章成功!", {
                     icon: 6
                 })
                 // location.href = '/article/art_list.html'
