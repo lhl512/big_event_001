@@ -25,7 +25,7 @@ $(window).on("load", function () {
 
     // 上传头像
     $("#btnUpload").on("click", function () {
-
+        // 获取base64格式
         let dataURL = $image.cropper('getCroppedCanvas', {
             width: 100,
             height: 100
